@@ -1,9 +1,13 @@
 <script setup>
-import TheWelcome from '../components/TheWelcome.vue'
+import EventCard from '../components/EventCard.vue';
+
+EventCard
 </script>
 
 <template>
-  <main>
-    <TheWelcome />
-  </main>
+ 
+<div class="home">
+  <EventCard/>
+</div>
+
 </template>
