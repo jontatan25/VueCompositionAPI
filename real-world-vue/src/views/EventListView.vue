@@ -1,12 +1,16 @@
 <script setup>
+import EventCard from '../components/EventCard.vue'
 import EventService from '../services/EventService.js'
 import { ref, onMounted } from 'vue'
-import EventCard from '../components/EventCard.vue'
+
+  const props = defineProps({
+    page: String,
+  });
 
 const events = ref(null)
 
 onMounted(() => {
-  EventService.getEvents()
+  EventService.getEvents(2, props.page)
     .then((response) => {
       events.value = response.data
     })
@@ -14,6 +18,7 @@ onMounted(() => {
       console.log(error)
     })
 })
+
 </script>
 
 <template>
