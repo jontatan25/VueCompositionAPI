@@ -20,12 +20,17 @@ const router = createRouter({
       })
     },
     {
-      path: '/about',
+      path: '/about-us',
       name: 'about',
       component: () => import('../views/AboutView.vue')
     },
     {
-      path: '/event/:id',
+      ///Redirecting from old URL
+      path: '/about',
+      redirect: '/about-us'
+    },
+    {
+      path: '/events/:id',
       name: 'event-layout',
       props: true,
       component: EventLayout,
@@ -44,8 +49,14 @@ const router = createRouter({
           path: 'edit',
           name: 'event-edit',
           component: EventEdit
-        },
+        }
       ]
+    },
+    {
+      path: '/event/:afterEvent(.*)',
+      redirect: to => {
+        return { path: '/events/' + to.params.afterEvent }
+      }
     },
     {
       path: '/clients',
