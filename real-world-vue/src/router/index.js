@@ -4,6 +4,8 @@ import EventLayout from '../views/event/Layout.vue'
 import EventDetails from '../views/event/Details.vue'
 import EventEdit from '../views/event/Edit.vue'
 import EventRegister from '../views/event/Register.vue'
+import NotFound from '../views/NotFound.vue'
+import NetworkError from '../views/NetworkError.vue'
 
 // import PostsView from '../components/PostsView.vue'
 
@@ -54,9 +56,27 @@ const router = createRouter({
     },
     {
       path: '/event/:afterEvent(.*)',
-      redirect: to => {
+      redirect: (to) => {
         return { path: '/events/' + to.params.afterEvent }
       }
+    },
+    {
+      ///when page is not found
+      path: '/:catchAll(.*)',
+      name: 'NotFound',
+      component: NotFound
+    },
+    {
+      ///when resource is not found
+      path: '/404/:resource',
+      name: '404Resource',
+      component: NotFound,
+      props: true
+    },
+    {
+      path: '/network-error',
+      name: 'NetworkError',
+      component: NetworkError
     },
     {
       path: '/clients',
