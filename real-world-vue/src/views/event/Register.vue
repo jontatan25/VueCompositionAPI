@@ -1,6 +1,6 @@
 <script setup>
-import { ref, onMounted } from 'vue'
-import { useRouter } from 'vue-router';
+import { inject, ref, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 import EventService from '../../services/EventService.js'
 
 const props = defineProps({
@@ -9,24 +9,35 @@ const props = defineProps({
   }
 })
 
-const router = useRouter();
+//gathering Global store info
+const GStore = inject('GStore')
+
+const router = useRouter()
 
 const register = async () => {
-    // make API call to register for the event
-    try {
-      const response = await fetch('registration-url-here');
-      if (response.ok) {
-        // If registration API call is successful
-        // Push back to the event details
-        router.push({ name: 'event-details', params: { id: props.event.id } });
-      } else {
-        console.log('Registration failed');
-        router.push({ name: 'event-details', params: { id: props.event.id } });
-      }
-    } catch (error) {
-      console.log(error);
+
+  //setting message for Global Store
+  GStore.flashMessage =
+    'You are successfully registered for ' + props.event.title
+  setTimeout(() => {  // After 3 seconds remove it
+    GStore.flashMessage = ''
+  }, 3000)
+  // make API call to register for the event
+  
+  try {
+    const response = await fetch('registration-url-here')
+    if (response.ok) {
+      // If registration API call is successful
+      // Push back to the event details
+      router.push({ name: 'event-details', params: { id: props.event.id } })
+    } else {
+      console.log('Registration failed')
+      router.push({ name: 'event-details', params: { id: props.event.id } })
     }
+  } catch (error) {
+    console.log(error)
   }
+}
 
 // const event = ref(null)
 
