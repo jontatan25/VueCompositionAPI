@@ -21,35 +21,60 @@
   </div>
 </template>
 
-<script setup>
-import EventCard from '../components/EventCard.vue'
-import EventService from '../services/EventService.js'
-import { ref, watchEffect, computed } from 'vue'
+<script>
+import EventCard from '@/components/EventCard.vue'
+import EventService from '@/services/EventService.js'
+import NProgress from 'nprogress'
 
-const props = defineProps({
-  page: String
-})
-
-const events = ref(null)
-const totalEvents = ref(0)
-
-watchEffect(() => {
-  //clearing out events
-  events.value = null
-  EventService.getEvents(2, props.page)
-    .then((response) => {
-      events.value = response.data
-      totalEvents.value = response.headers['x-total-count']
-    })
-    .catch((error) => {
-      console.log(error)
-    })
-})
-
-const hasNextPage = computed(() => {
-  const totalPages = Math.ceil(totalEvents.value / 2)
-  return props.page < totalPages
-})
+export default {
+  name: 'EventList',
+  props: ['page'],
+  components: {
+    EventCard
+  },
+  data() {
+    return {
+      events: null,
+      totalEvents: 0
+    }
+  },
+  beforeRouteEnter(routeTo, routeFrom, next) {
+    NProgress.start()
+    EventService.getEvents(2, parseInt(routeTo.query.page) || 1)
+      .then((response) => {
+        next((comp) => {
+          comp.events = response.data
+          comp.totalEvents = response.headers['x-total-count']
+        })
+      })
+      .catch(() => {
+        next({ name: 'NetworkError' })
+      })
+      .finally(() => {
+        NProgress.done()
+      })
+  },
+  beforeRouteUpdate(routeTo) {
+    NProgress.start()
+    EventService.getEvents(2, parseInt(routeTo.query.page) || 1)
+      .then((response) => {
+        this.events = response.data
+        this.totalEvents = response.headers['x-total-count']
+      })
+      .catch(() => {
+        return { name: 'NetworkError' }
+      })
+      .finally(() => {
+        NProgress.done()
+      })
+  },
+  computed: {
+    hasNextPage() {
+      var totalPages = Math.ceil(this.totalEvents / 2)
+      return this.page < totalPages
+    }
+  }
+}
 </script>
 
 <style scoped>

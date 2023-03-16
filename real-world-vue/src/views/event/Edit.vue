@@ -1,23 +1,29 @@
 <script setup>
-import { ref, onMounted } from 'vue'
-import EventService from '../../services/EventService.js'
+import { ref } from 'vue'
+import { onBeforeRouteLeave } from 'vue-router'
 
 const props = defineProps({
   event: {
     required: true
   }
 })
-// const event = ref(null)
 
-// onMounted(() => {
-//   EventService.getEvent(props.id)
-//     .then((response) => {
-//       event.value = response.data
-//     })
-//     .catch((error) => {
-//       console.log(error)
-//     })
-// })
+const unsavedChanges = ref(true) // define a reactive variable using ref
+
+onBeforeRouteLeave((routeTo, routeFrom, next) => {
+  if (unsavedChanges.value) {
+    // access the value of reactive variable using .value
+    const answer = window.confirm('Do you really want to leave? You have unsaved changes!')
+    if (answer) {
+      next() // <-- Confirms the navigation
+    } else {
+      next(false) // <-- Cancels the navigation
+    }
+  } else {
+    next() // <-- Confirms the navigation
+  }
+})
+
 </script>
 
 <template>
