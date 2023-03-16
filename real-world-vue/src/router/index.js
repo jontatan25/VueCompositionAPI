@@ -109,14 +109,21 @@ const router = createRouter({
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import('../views/ClientsView.vue')
+      component: () => import(/* webpackChunkName: "clients" */ '../views/ClientsView.vue')
     }
     // {
     //   path: '/posts',
     //   name: 'posts',
     //   component: PostsView
     // }
-  ]
+  ],
+  scrollBehavior(to, from, savedPosition) {
+    if (savedPosition) { // <----
+      return savedPosition
+    } else {
+      return { top: 0 }
+    }
+  }
 })
 
 router.beforeEach((to, from) => {
