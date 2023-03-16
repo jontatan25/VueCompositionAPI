@@ -2,8 +2,9 @@
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import EventService from '../../services/EventService.js'
-import { inject } from 'vue'
-const GStore = inject('GStore')
+import { usePiniaStore } from '../../stores/PiniaStore';
+
+const PStore = usePiniaStore()
 
 const props = defineProps({
   id: {
@@ -29,8 +30,8 @@ onMounted(() => {
 </script>
 
 <template>
-  <div v-if="GStore.event">
-    <h1>{{ GStore.title }}</h1>
+  <div v-if="PStore.event">
+    <h1>{{ PStore.event.title }}</h1>
     <div class="nav">
       <RouterLink :to="{ name: 'event-details', params: { id } }">Details</RouterLink>
       |
@@ -38,6 +39,6 @@ onMounted(() => {
       |
       <RouterLink :to="{ name: 'event-edit', params: { id } }">Edit</RouterLink>
     </div>
-    <RouterView :event="GStore.event"></RouterView>
+    <RouterView :event="PStore.event"></RouterView>
   </div>
 </template>

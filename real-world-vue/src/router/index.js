@@ -9,6 +9,7 @@ import NetworkError from '../views/NetworkError.vue'
 import NProgress from 'nprogress'
 import EventService from '../services/EventService'
 import GStore from '../stores/GStore'
+import { usePiniaStore } from '../stores/piniaStore'
 
 // import PostsView from '../components/PostsView.vue'
 
@@ -38,12 +39,10 @@ const router = createRouter({
       path: '/events/:id',
       name: 'event-layout',
       beforeEnter: (to) => {
-        // const event = ref(null)
-        // const router = useRouter()
-        // onMounted(() => {
+        const store = usePiniaStore()
         return EventService.getEvent(to.params.id)
           .then((response) => {
-            GStore.event = response.data
+            store.setEvent(response.data)
           })
           .catch((error) => {
             console.log(error)
@@ -127,14 +126,15 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from) => {
+  const store = usePiniaStore()
   NProgress.start()
 
   const notAuthorized = true
   if (to.meta.requireAuth && notAuthorized) {
-    GStore.flashMessage = 'Sorry, you are not authorized to view this page'
+    store.updateMessage('Sorry, you are not authorized to view this page') 
 
     setTimeout(() => {
-      GStore.flashMessage = ''
+      store.updateMessage('') 
     }, 3000)
 
     if (from.href) { // <--- If this navigation came from a previous page.

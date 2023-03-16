@@ -1,13 +1,16 @@
 <script setup>
+import { storeToRefs } from 'pinia'
 import { inject } from 'vue'
 import { RouterLink, RouterView } from 'vue-router'
-const GStore = inject('GStore')
+import { usePiniaStore } from './stores/PiniaStore'
+
+const PStore = usePiniaStore()
 </script>
 
 <template>
   <div id="app">
-    <div id="flashMessage" v-if="GStore.flashMessage">
-      {{ GStore.flashMessage }}
+    <div id="flashMessage" v-if="PStore.flashMessage">
+      {{ PStore.flashMessage }}
     </div>
     <header>
       <div class="nav">
@@ -49,7 +52,7 @@ h2 {
 
 @keyframes yellowfade {
   from {
-    background: #42b983;
+    background: #f2b33d;
   }
   to {
     background: transparent;
