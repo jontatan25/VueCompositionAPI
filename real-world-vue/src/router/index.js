@@ -8,7 +8,7 @@ import NotFound from '../views/NotFound.vue'
 import NetworkError from '../views/NetworkError.vue'
 import NProgress from 'nprogress'
 import EventService from '../services/EventService'
-import GSstore from '../stores/GSstore'
+import GStore from '../stores/GStore'
 
 // import PostsView from '../components/PostsView.vue'
 
@@ -43,7 +43,7 @@ const router = createRouter({
         // onMounted(() => {
         return EventService.getEvent(to.params.id)
           .then((response) => {
-            GSstore.event = response.data
+            GStore.event = response.data
           })
           .catch((error) => {
             console.log(error)
@@ -74,7 +74,8 @@ const router = createRouter({
         {
           path: 'edit',
           name: 'event-edit',
-          component: EventEdit
+          component: EventEdit,
+          meta: { requireAuth: true }
         }
       ]
     },
@@ -118,8 +119,23 @@ const router = createRouter({
   ]
 })
 
-router.beforeEach(() => {
+router.beforeEach((to, from) => {
   NProgress.start()
+
+  const notAuthorized = true
+  if (to.meta.requireAuth && notAuthorized) {
+    GStore.flashMessage = 'Sorry, you are not authorized to view this page'
+
+    setTimeout(() => {
+      GStore.flashMessage = ''
+    }, 3000)
+
+    if (from.href) { // <--- If this navigation came from a previous page.
+      return false
+    } else {  // <--- Must be navigating directly
+      return { path: '/' }  // <--- Push navigation to the root route.
+    }
+  }
 })
 router.afterEach(() => {
   NProgress.done()

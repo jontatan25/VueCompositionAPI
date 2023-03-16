@@ -10,17 +10,17 @@ const props = defineProps({
 })
 
 //gathering Global store info
-const GSstore = inject('GSstore')
+const GStore = inject('GStore')
 
 const router = useRouter()
 
 const register = async () => {
 
   //setting message for Global Store
-  GSstore.flashMessage =
+  GStore.flashMessage =
     'You are successfully registered for ' + props.event.title
   setTimeout(() => {  // After 3 seconds remove it
-    GSstore.flashMessage = ''
+    GStore.flashMessage = ''
   }, 3000)
   // make API call to register for the event
   
