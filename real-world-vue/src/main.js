@@ -4,12 +4,12 @@ import { createPinia } from 'pinia'
 import App from './App.vue'
 import router from './router'
 import 'nprogress/nprogress.css'
+import GSstore from './stores/GSstore'
 
 const app = createApp(App)
-const GStore = reactive({ flashMessage: '' })
 
-app.use(createPinia())
+// app.use(createPinia())
 app.use(router)
-app.provide('GStore', GStore)
+app.provide('GSstore', GSstore)
 
 app.mount('#app')

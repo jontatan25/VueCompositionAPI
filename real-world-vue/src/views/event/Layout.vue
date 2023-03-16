@@ -2,6 +2,8 @@
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import EventService from '../../services/EventService.js'
+import { inject } from 'vue'
+const GSstore = inject('GSstore')
 
 const props = defineProps({
   id: {
@@ -27,7 +29,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div v-if="event">
+  <div v-if="GSstore.event">
     <h1>{{ event.title }}</h1>
     <div class="nav">
       <RouterLink :to="{ name: 'event-details', params: { id } }">Details</RouterLink>
