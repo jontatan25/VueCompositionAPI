@@ -3,11 +3,17 @@ import { inject, ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import EventService from '../../services/EventService.js'
 import { usePiniaStore } from '../../stores/PiniaStore';
-
+import { PropType } from 'vue'
+interface EventProp {
+  title: string,
+  id : Number,
+  // add other properties here
+}
 
 const props = defineProps({
   event: {
-    required: true
+    required: true,
+    type: Object as PropType<EventProp>,
   }
 })
 
@@ -34,10 +40,10 @@ const register = async () => {
     if (response.ok) {
       // If registration API call is successful
       // Push back to the event details
-      router.push({ name: 'event-details', params: { id: props.event.id } })
+      router.push({ name: 'event-details', params: { id: props.event.id.toString() } })
     } else {
       console.log('Registration failed')
-      router.push({ name: 'event-details', params: { id: props.event.id } })
+      router.push({ name: 'event-details', params: { id: props.event.id.toString() } })
     }
   } catch (error) {
     console.log(error)
