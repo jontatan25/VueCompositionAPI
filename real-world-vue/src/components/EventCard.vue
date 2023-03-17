@@ -1,4 +1,15 @@
-<script setup>
+<script lang="ts" setup>
+import { defineComponent } from 'vue'
+defineComponent({
+  name: "EventCard",
+  props: {
+    event: {
+    type: Object,
+    required: true
+  }
+  }
+})
+
 defineProps({
   event: {
     type: Object,

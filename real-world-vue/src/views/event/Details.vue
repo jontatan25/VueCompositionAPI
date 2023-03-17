@@ -1,23 +1,18 @@
-<script setup>
-import { ref, onMounted } from 'vue'
-import EventService from '../../services/EventService.ts'
+<script lang="ts" setup>
 
-const props = defineProps({
+interface Event {
+  time: string
+  date: string
+  location: string
+  description: string
+}
+
+defineProps({
   event: {
+    type: Object as () => Event,
     required: true
   }
 })
-// const event = ref(null)
-
-// onMounted(() => {
-//   EventService.getEvent(props.id)
-//     .then((response) => {
-//       event.value = response.data
-//     })
-//     .catch((error) => {
-//       console.log(error)
-//     })
-// })
 </script>
 
 <template>

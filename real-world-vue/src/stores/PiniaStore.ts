@@ -2,9 +2,15 @@ import { defineStore } from 'pinia'
 
 interface PiniaStoreState {
   flashMessage: string,
-  event: null | unknown
+  event: null | Event
 }
-
+interface Event {
+  title: string
+  time: string
+  date: string
+  location: string
+  description: string
+}
 export const usePiniaStore = defineStore('piniaStore', {
   state: (): PiniaStoreState => ({
     flashMessage: '',
@@ -14,7 +20,7 @@ export const usePiniaStore = defineStore('piniaStore', {
     updateMessage(newMessage: string) {
       this.flashMessage = newMessage
     },
-    setEvent(newEvent: unknown) {
+    setEvent(newEvent: Event) {
       this.event = newEvent
     }
   }

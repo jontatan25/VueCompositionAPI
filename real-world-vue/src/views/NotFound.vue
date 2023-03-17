@@ -1,5 +1,5 @@
-<script setup>
-const props = defineProps({
+<script lang="ts" setup>
+  defineProps({
   resource: {
     type: String,
     required: true,

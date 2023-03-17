@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import { storeToRefs } from 'pinia'
-import { inject } from 'vue'
+
 import { RouterLink, RouterView } from 'vue-router'
 import { usePiniaStore } from './stores/PiniaStore'
+
 
 const PStore = usePiniaStore()
 </script>
@@ -27,6 +27,7 @@ const PStore = usePiniaStore()
 </template>
 
 <style>
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

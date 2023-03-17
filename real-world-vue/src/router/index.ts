@@ -21,7 +21,7 @@ const router = createRouter({
       component: EventListView,
       props: (route) => ({
         //If page exists parse the string, or return 1
-        page: parseInt(route.query.page) || 1
+        page: parseInt(route.query.page as string) || 1
       })
     },
     {
@@ -39,7 +39,8 @@ const router = createRouter({
       name: 'event-layout',
       beforeEnter: (to) => {
         const store = usePiniaStore()
-        return EventService.getEvent(to.params.id)
+        const eventId = Number(to.params.id) 
+        return EventService.getEvent(eventId)
           .then((response) => {
             store.setEvent(response.data)
           })
@@ -116,7 +117,7 @@ const router = createRouter({
     // }
   ],
   scrollBehavior(to, from, savedPosition) {
-    if (savedPosition) { // <----
+    if (savedPosition) {
       return savedPosition
     } else {
       return { top: 0 }
@@ -136,7 +137,7 @@ router.beforeEach((to, from) => {
       store.updateMessage('') 
     }, 3000)
 
-    if (from.href) { // <--- If this navigation came from a previous page.
+    if (from.fullPath) { // <--- If this navigation came from a previous page.
       return false
     } else {  // <--- Must be navigating directly
       return { path: '/' }  // <--- Push navigation to the root route.
