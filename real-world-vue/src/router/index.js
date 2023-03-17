@@ -8,7 +8,7 @@ import NotFound from '../views/NotFound.vue'
 import NetworkError from '../views/NetworkError.vue'
 import NProgress from 'nprogress'
 import EventService from '../services/EventService'
-import { usePiniaStore } from '../stores/piniaStore'
+import { usePiniaStore } from '../stores/PiniaStore'
 
 // import PostsView from '../components/PostsView.vue'
 
