@@ -23,7 +23,7 @@
 
 <script>
 import EventCard from '@/components/EventCard.vue'
-import EventService from '@/services/EventService.js'
+import EventService from '@/services/EventService.ts'
 
 export default {
   name: 'EventList',

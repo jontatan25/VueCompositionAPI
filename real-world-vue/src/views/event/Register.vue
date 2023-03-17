@@ -1,4 +1,4 @@
-<script setup>
+<script lang="ts" setup>
 import { inject, ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import EventService from '../../services/EventService.js'

@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import EventService from '../../services/EventService.js'
+import EventService from '../../services/EventService.ts'
 import { usePiniaStore } from '../../stores/PiniaStore';
 
 const PStore = usePiniaStore()

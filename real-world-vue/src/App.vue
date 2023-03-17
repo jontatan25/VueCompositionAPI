@@ -1,4 +1,4 @@
-<script setup>
+<script lang="ts" setup>
 import { storeToRefs } from 'pinia'
 import { inject } from 'vue'
 import { RouterLink, RouterView } from 'vue-router'
