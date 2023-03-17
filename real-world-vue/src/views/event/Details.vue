@@ -1,15 +1,9 @@
 <script lang="ts" setup>
-
-interface Event {
-  time: string
-  date: string
-  location: string
-  description: string
-}
+import { EventItem } from '../../types'
 
 defineProps({
   event: {
-    type: Object as () => Event,
+    type: Object as () => EventItem,
     required: true
   }
 })

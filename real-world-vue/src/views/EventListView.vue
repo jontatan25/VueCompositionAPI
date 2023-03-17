@@ -21,9 +21,11 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import EventCard from '@/components/EventCard.vue'
-import EventService from '@/services/EventService.ts'
+import EventService from '@/services/EventService.js'
+
+import { EventItem } from '@/types'
 
 export default {
   name: 'EventList',
@@ -33,15 +35,15 @@ export default {
   },
   data() {
     return {
-      events: null,
+      events: [] as EventItem[],
       totalEvents: 0
     }
   },
   beforeRouteEnter(routeTo, routeFrom, next) {
 
-    return EventService.getEvents(2, parseInt(routeTo.query.page) || 1)
+    return EventService.getEvents(2, parseInt(String(routeTo.query.page)) || 1)
       .then((response) => {
-        next((comp) => {
+        next((comp:any) => {
           comp.events = response.data
           comp.totalEvents = response.headers['x-total-count']
         })
@@ -53,7 +55,7 @@ export default {
   },
   beforeRouteUpdate(routeTo) {
 
-    EventService.getEvents(2, parseInt(routeTo.query.page) || 1)
+    EventService.getEvents(2, parseInt(String(routeTo.query.page)) || 1)
       .then((response) => {
         this.events = response.data
         this.totalEvents = response.headers['x-total-count']
